@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.http.HttpResponse;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -54,23 +54,23 @@ public class BertoSugokuApiIntegration {
     }
 
     public static boolean validate(int[][] board) throws IOException {
-        String urlParameters  = "{\"board\":[";
+        StringBuilder urlParameters  = new StringBuilder("[");
         for (int row = 0; row < board.length; row++) {
-            urlParameters += "[";
+            urlParameters.append("[");
             for (int col = 0; col < board.length; col++) {
-                urlParameters += String.valueOf(board[row][col]);
+                urlParameters.append(board[row][col]);
                 if (col < board.length-1) {
-                    urlParameters += ",";
+                    urlParameters.append(",");
                 }
             }
-            urlParameters += "]";
+            urlParameters.append("]");
             if (row < board.length -1) {
-                urlParameters += ",";
+                urlParameters.append(",");
             } else {
-                urlParameters += "]}";
+                urlParameters.append("]");
             }
         }
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        urlParameters = new StringBuilder("board=" + URLEncoder.encode(urlParameters.toString(), StandardCharsets.UTF_8));
         String request = "https://sugoku.herokuapp.com/validate";
         URL url = new URL(request);
         HttpURLConnection conn= (HttpURLConnection) url.openConnection();
@@ -78,15 +78,15 @@ public class BertoSugokuApiIntegration {
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-        wr.write(postData);
+        wr.writeBytes(urlParameters.toString());
         InputStreamReader response = new InputStreamReader(conn.getInputStream());
         BufferedReader br = new BufferedReader(response);
-        String httpResponse = "";
+        StringBuilder httpResponse = new StringBuilder();
         String line;
         while ((line = br.readLine()) != null) {
-            httpResponse += line;
+            httpResponse.append(line);
         }
 
-        return httpResponse.equals("{\"status\":\"solved\"}");
+        return httpResponse.toString().equals("{\"status\":\"solved\"}");
     }
 }
