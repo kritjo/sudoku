@@ -26,10 +26,7 @@ public class Board {
                 if (board[row][col] == 0) {
                     ArrayList<Integer> possible = getPossible(row, col);
                     for (int i = 0; i < possible.size(); i++) {
-                        int[][] newBoard = new int[board.length][board.length];
-                        for (int r = 0; r < board.length; r++) {
-                            System.arraycopy(board[r], 0, newBoard[r], 0, board[r].length);
-                        }
+                        int[][] newBoard = copyArr(board);
                         newBoard[row][col] = possible.get(i);
                         result[i] = new Board(newBoard);
                     }
