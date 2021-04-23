@@ -12,10 +12,7 @@ public class Board {
      * @param board Sudoku board in the format int[row][col]. 0 for empty cell. int must be in the range 0-9.
      */
     public Board(int[][] board) {
-        this.board = new int[board.length][board.length];
-        for (int row = 0; row < board.length; row++) {
-            System.arraycopy(board[row], 0, this.board[row], 0, board[row].length);
-        }
+        this.board = copyArr(board);
     }
 
     /**
@@ -161,11 +158,15 @@ public class Board {
      * @return Board as int[row][col]
      */
     public int[][] toArray() {
-        int[][] arr = new int[board.length][board.length];
-        for (int row = 0; row < board.length; row++) {
-            System.arraycopy(board[row], 0, arr[row], 0, board[row].length);
+        return copyArr(board);
+    }
+
+    public int[][] copyArr(int[][] old) {
+        int[][] newArr = new int[old.length][old.length];
+        for (int row = 0; row < old.length; row++) {
+            System.arraycopy(old[row], 0, newArr[row], 0, old[row].length);
         }
-        return arr;
+        return newArr;
     }
 
 }
