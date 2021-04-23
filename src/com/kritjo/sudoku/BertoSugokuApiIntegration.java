@@ -2,10 +2,7 @@ package com.kritjo.sudoku;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -53,23 +50,7 @@ public class BertoSugokuApiIntegration {
     }
 
     public static boolean validate(int[][] board) throws IOException {
-        StringBuilder urlParameters  = new StringBuilder("[");
-        for (int row = 0; row < board.length; row++) {
-            urlParameters.append("[");
-            for (int col = 0; col < board.length; col++) {
-                urlParameters.append(board[row][col]);
-                if (col < board.length-1) {
-                    urlParameters.append(",");
-                }
-            }
-            urlParameters.append("]");
-            if (row < board.length -1) {
-                urlParameters.append(",");
-            } else {
-                urlParameters.append("]");
-            }
-        }
-        urlParameters = new StringBuilder("board=" + URLEncoder.encode(urlParameters.toString(), "UTF-8"));
+        StringBuilder urlParameters = encodeUrl(board);
         String request = "https://sugoku.herokuapp.com/validate";
         URL url = new URL(request);
         HttpURLConnection conn= (HttpURLConnection) url.openConnection();
@@ -87,5 +68,25 @@ public class BertoSugokuApiIntegration {
         }
 
         return httpResponse.toString().equals("{\"status\":\"solved\"}");
+    }
+
+    private static StringBuilder encodeUrl(int[][] board) throws UnsupportedEncodingException {
+        StringBuilder urlParameters  = new StringBuilder("[");
+        for (int row = 0; row < board.length; row++) {
+            urlParameters.append("[");
+            for (int col = 0; col < board.length; col++) {
+                urlParameters.append(board[row][col]);
+                if (col < board.length-1) {
+                    urlParameters.append(",");
+                }
+            }
+            urlParameters.append("]");
+            if (row < board.length -1) {
+                urlParameters.append(",");
+            } else {
+                urlParameters.append("]");
+            }
+        }
+        return new StringBuilder("board=" + URLEncoder.encode(urlParameters.toString(), "UTF-8"));
     }
 }
