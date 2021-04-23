@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 
@@ -70,7 +69,7 @@ public class BertoSugokuApiIntegration {
                 urlParameters.append("]");
             }
         }
-        urlParameters = new StringBuilder("board=" + URLEncoder.encode(urlParameters.toString(), StandardCharsets.UTF_8));
+        urlParameters = new StringBuilder("board=" + URLEncoder.encode(urlParameters.toString(), "UTF-8"));
         String request = "https://sugoku.herokuapp.com/validate";
         URL url = new URL(request);
         HttpURLConnection conn= (HttpURLConnection) url.openConnection();
