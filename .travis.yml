@@ -1,9 +1,13 @@
+dist: xenial
 language: java
+addons:
+  apt:
+    packages:
+      - ant
 
 jdk:
   - openjdk8
   - openjdk11
   
 script:
-  - javac ./src/com/kritjo/sudoku/*.java
-  - javac ./src/com/kritjo/sudoku/gui/*.java
+  - ant test
