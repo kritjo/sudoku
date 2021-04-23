@@ -14,7 +14,11 @@ public class Cell extends JTextField {
     }
 
     public int getNum() {
-        return num;
+        try {
+            return Integer.parseInt(getText());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     public void setNum(int num) {

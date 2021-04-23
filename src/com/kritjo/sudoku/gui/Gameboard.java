@@ -63,6 +63,8 @@ public class Gameboard extends JPanel {
                 try {
                     if (BertoSugokuApiIntegration.validate(board.getBoard())) {
                         state.setText("Solved! All done.");
+                    } else {
+                        state.setText("Not solved");
                     }
                 } catch (IOException e) {
                     state.setText("CAN NOT CONNECT TO API");
