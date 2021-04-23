@@ -57,29 +57,29 @@ public class Board {
      * @return Is the board valid as per sudoku rules
      */
     public boolean valid() {
-        boolean valid = true;
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
-                if (board[row][col] != 0) {
-                    if (valid) {
-                        if (onlyInRow(row, board[row][col]) != 1) {
-                            valid = false;
-                        }
-                    }
-                    if (valid) {
-                        if (onlyInCol(col, board[row][col]) != 1) {
-                            valid = false;
-                        }
-                    }
-                    if (valid) {
-                        if (onlyInBox(row, col, board[row][col]) != 1) {
-                            valid = false;
-                        }
-                    }
+                if (!cellValid(row, col)) {
+                    return false;
                 }
             }
         }
-        return valid;
+        return true;
+    }
+
+    private boolean cellValid(int row, int col) {
+        if (board[row][col] != 0) {
+            if (onlyInRow(row, board[row][col]) != 1) {
+                return false;
+            }
+            if (onlyInCol(col, board[row][col]) != 1) {
+                return false;
+            }
+            if (onlyInBox(row, col, board[row][col]) != 1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
