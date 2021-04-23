@@ -1,0 +1,7 @@
+<project default="test">
+    <target name="test">
+        <mkdir dir="bin"/>
+        <get src="https://raw.githubusercontent.com/JetBrains/java-annotations/3a169680e3e0103aa35bd815e2ec93917a41e9ec/common/src/main/java/org/jetbrains/annotations/NotNull.java" dest="src"/>
+        <javac srcdir="src" destdir="bin"/>
+    </target>
+</project>
