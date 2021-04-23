@@ -1,8 +1,15 @@
 package com.kritjo.sudoku;
 
+/**
+ * Offers recursive solving of sudoku board.
+ */
 public class Solver {
     private Board board = null;
 
+    /**
+     * @param board Board to be solved.
+     * @return Solved board.
+     */
     public int[][] solve(int[][] board) {
         Board boardObj = new Board(board);
         try {
@@ -16,6 +23,11 @@ public class Solver {
     }
 
 
+    /**
+     * Actual recursive solving function. Set instance variable when solved.
+     * @param board Board to be solved.
+     * @throws ResultFoundException Thrown when board is solved.
+     */
     private void recPartial(Board board) throws ResultFoundException {
         if (board.done()) {
             this.board = board;
